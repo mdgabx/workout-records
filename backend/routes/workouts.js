@@ -75,8 +75,26 @@ router.delete('/:id', async (req, res) => {
 
 
 //UPDATE a workout
-router.patch('/:id', (req, res) => {
-    res.json({ msg: 'UPDATE a workout' })
+router.patch('/:id', async (req, res) => {
+
+    const { id } = req.params
+
+    try {
+        const updatedWorkout = await Workout.findByIdAndUpdate(id, {
+            ...req.body
+        }, {
+            new: true
+        })
+
+        if(!updatedWorkout) {
+            return res.status(404).json({ error: 'No updated workout found' })
+        }
+
+        res.status(200).json(updatedWorkout)
+
+    } catch (error) {
+        res.status(400).json({ error: error.message })
+    }
 })
 
 
