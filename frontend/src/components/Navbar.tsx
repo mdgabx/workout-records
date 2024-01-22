@@ -2,10 +2,10 @@ import { Link } from "react-router-dom"
 
 const Navbar = () => {
   return (
-    <header>
-        <div className="container flex flex-row items-center justify-between bg-lime-500 text-white px-6 py-10">
+    <header className="bg-lime-500">
+        <div className="container flex flex-row items-center justify-between text-white px-10 py-8">
             <Link to="/" >
-                <h1 className="font-urbanist text-5xl font-bold">Workout App</h1>
+                <h1 className="font-urbanist text-3xl md:text-5xl font-bold">Workout App</h1>
             </Link>
         </div>
     </header>

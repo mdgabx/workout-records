@@ -8,7 +8,7 @@ function App() {
     <>
       <BrowserRouter>
       <Navbar />
-      <div className="container">
+      <div className="container flex items-center justify-center w-100 p-6">
         <Routes>
             <Route path='/' element={<Home />} />
         </Routes>
