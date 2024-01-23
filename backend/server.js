@@ -7,6 +7,7 @@ require('dotenv').config() // needed to use process.env
 const app = express() // express app
 
 app.use(express.json())
+app.use(cors())
 
 // middleware to know what path and method is called
 app.use((req, res, next) => {
