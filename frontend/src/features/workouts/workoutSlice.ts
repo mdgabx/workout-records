@@ -1,5 +1,9 @@
 import { fetchWorkouts as apiFetchWorkouts } from '../../app/api'
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { 
+    PayloadAction, 
+    createAsyncThunk, 
+    createSlice,
+} from "@reduxjs/toolkit";
 
 interface Workout {
     title: string;
@@ -19,10 +23,15 @@ const initialState: WorkoutsState = {
     error: null,
 }
 
-export const fetchWorkouts = createAsyncThunk('workouts/fetchWorkouts', async () => {
-    const response = await apiFetchWorkouts();
-    return response.data as Workout[]
-})
+type FetchWorkoutsResponse = Workout[];
+
+export const fetchWorkouts = createAsyncThunk<FetchWorkoutsResponse, void>(
+    'workouts/fetchWorkouts',
+    async () => {
+      const response = await apiFetchWorkouts();
+      return response.data as FetchWorkoutsResponse;
+    }
+  );
 
 const workoutSlice = createSlice({
     name: 'workouts',
