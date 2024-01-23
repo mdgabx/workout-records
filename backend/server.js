@@ -1,6 +1,7 @@
 const express = require('express')
 const workoutRoutes = require('./routes/workouts')
 const mongoose = require('mongoose')
+const cors = require('cors')
 
 require('dotenv').config() // needed to use process.env
 
