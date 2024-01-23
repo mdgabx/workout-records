@@ -5,13 +5,14 @@ import {
     createSlice,
 } from "@reduxjs/toolkit";
 
-interface Workout {
+export interface Workout {
+    _id: string;
     title: string;
     reps: number;
     load: number;
 }
 
-interface WorkoutsState {
+export interface WorkoutsState {
     workouts: Workout[];
     status: 'idle' | 'loading' | 'success' | 'failed';
     error: string | null;
@@ -29,7 +30,7 @@ export const fetchWorkouts = createAsyncThunk<FetchWorkoutsResponse, void>(
     'workouts/fetchWorkouts',
     async () => {
       const response = await apiFetchWorkouts();
-      return response.data as FetchWorkoutsResponse;
+      return response as FetchWorkoutsResponse;
     }
   );
 
