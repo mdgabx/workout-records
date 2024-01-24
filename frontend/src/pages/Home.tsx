@@ -9,7 +9,7 @@ const Home = () => {
 
   useEffect(() => {
     // Dispatch the action to fetch workouts
-    dispatch(fetchWorkouts() as any);
+    dispatch(fetchWorkouts());
   }, [dispatch]);
 
   useEffect(() => {
@@ -17,21 +17,31 @@ const Home = () => {
     console.log('Updated workouts:', workouts);
   }, [workouts]);
 
+  const CardDetails:React.FC<Workout> = ({ title, reps, load, createdAt }) => (
+    <div className="shadow-md border w-full border-gray-200 p-7 rounded">
+    <h2 className="text-sky-600 text-xl font-urbanist font-bold">{title}</h2>
+    <p><strong>Reps:</strong> {reps}</p>
+    <p><strong>Load:</strong> {load}</p>
+    <p>{new Date(createdAt).toLocaleDateString()}</p>
+  </div>
+  )
+
   return (
-    <div className="font-urbanist flex flex-col items-center justify-evenly">
-      <h2 className="font-urbanist text-left">Records</h2>
+    <div className="flex w-full px-10 flex-row items-start justify-between">
+      {/* <h2 className="font-urbanist text-left">Records</h2> */}
       
-      <div className="mx-auto w-100 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 my-10">
+      <div className="mx-auto w-7/12 flex flex-col items-stretch gap-4 my-10">
       {workouts.map((workout: Workout) => (
-        <div key={workout._id} className="shadow-md border border-gray-200 p-7 rounded">
-          <h2>{workout.title}</h2>
-          <p>Reps: {workout.reps}</p>
-          <p>Load: {workout.load}</p>
-        </div>
+       <CardDetails key={workout._id}  {...workout} />
       ))}
     </div>
+
+    <div className='w-5/12 container'>
+        <form>
+
+        </form>
     </div>
-    
+  </div>
   );
 };
 

@@ -10,6 +10,7 @@ export interface Workout {
     title: string;
     reps: number;
     load: number;
+    createdAt: Date;
 }
 
 export interface WorkoutsState {
