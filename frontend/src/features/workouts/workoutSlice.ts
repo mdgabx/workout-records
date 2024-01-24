@@ -1,4 +1,7 @@
-import { fetchWorkouts as apiFetchWorkouts } from '../../app/api'
+import { 
+    apiFetchWorkouts,
+    apiCreateWorkout 
+} from '../../app/api'
 import { 
     PayloadAction, 
     createAsyncThunk, 
@@ -6,11 +9,11 @@ import {
 } from "@reduxjs/toolkit";
 
 export interface Workout {
-    _id: string;
+    _id?: string;
     title: string;
     reps: number;
     load: number;
-    createdAt: Date;
+    createdAt?: Date;
 }
 
 export interface WorkoutsState {
@@ -35,6 +38,14 @@ export const fetchWorkouts = createAsyncThunk<FetchWorkoutsResponse, void>(
     }
   );
 
+export const createWorkout = createAsyncThunk(
+    'workouts/CreateWorkout', 
+    async (newWorkout: Workout) => {
+        const response = await apiCreateWorkout(newWorkout)
+        return response
+    }
+);
+
 const workoutSlice = createSlice({
     name: 'workouts',
     initialState,
@@ -52,6 +63,18 @@ const workoutSlice = createSlice({
                 state.status = 'failed',
                 state.error  = action.error.message ?? "Unknown Error"
             })
+            .addCase(createWorkout.pending, (state) => {
+                state.status = 'loading'
+            })
+            .addCase(createWorkout.fulfilled, (state, action: PayloadAction<Workout>) => {
+                state.status = 'success',
+                state.workouts.push(action.payload)
+            })
+            .addCase(createWorkout.rejected, (state, action) => {
+                state.status = 'failed',
+                state.error  = action.error.message ?? "Unknown Error"
+            })
+            
     }
 })
 

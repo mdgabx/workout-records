@@ -1,24 +1,18 @@
 import { RootState } from '../app/store';
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { fetchWorkouts, Workout } from '../features/workouts/workoutSlice';
 import CardDetails from '../components/CardDetails';
 import WorkoutForm from '../components/WorkoutForm';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
 
 const Home = () => {
-  const dispatch = useDispatch();
-  const workouts = useSelector((state: RootState) => state.workout.workouts);
+  const dispatch = useAppDispatch();
+  const workouts = useAppSelector((state: RootState) => state.workout.workouts)
 
   useEffect(() => {
     // Dispatch the action to fetch workouts
     dispatch(fetchWorkouts());
-  }, [dispatch]);
-
-  useEffect(() => {
-    // This effect will run whenever the 'workouts' state changes
-    console.log('Updated workouts:', workouts);
-  }, [workouts]);
-
+  }, [dispatch, workouts]);
 
   return (
     <div className="flex w-full px-10 flex-row items-start justify-between gap-x-4">
