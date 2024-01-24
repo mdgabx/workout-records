@@ -1,10 +1,13 @@
-import React, { useState } from 'react'
-import { useAppDispatch } from '../app/hooks'
+import React, { useState, useEffect } from 'react'
+import { useAppDispatch, useAppSelector } from '../app/hooks'
 import { createWorkout } from '../features/workouts/workoutSlice'
+import { RootState } from '../app/store'
 
 
 const WorkoutForm:React.FC = () => {
   const dispatch = useAppDispatch()
+  const workouts = useAppSelector((state: RootState) => state.workout.workouts)
+
   const [formData, setFormData] = useState({
     title: '',
     reps: 0,
@@ -24,17 +27,16 @@ const WorkoutForm:React.FC = () => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault()
-    
-
     dispatch(createWorkout(formData))
-
-    setFormData({
-        title: '',
-        reps: 0,
-        load: 0
-    })
   }
 
+  useEffect(() => {
+    setFormData({
+      title: '',
+      reps: 0,
+      load: 0,
+    });
+  }, [workouts]);
 
 
 

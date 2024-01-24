@@ -10,9 +10,8 @@ const Home = () => {
   const workouts = useAppSelector((state: RootState) => state.workout.workouts)
 
   useEffect(() => {
-    // Dispatch the action to fetch workouts
     dispatch(fetchWorkouts());
-  }, [dispatch, workouts]);
+  }, [dispatch]);
 
   return (
     <div className="flex w-full px-10 flex-row items-start justify-between gap-x-4">
