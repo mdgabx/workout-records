@@ -1,6 +1,7 @@
 import { 
     apiFetchWorkouts,
-    apiCreateWorkout 
+    apiCreateWorkout,
+    apiDeleteWorkout
 } from '../../app/api'
 import { 
     PayloadAction, 
@@ -13,7 +14,8 @@ export interface Workout {
     title: string;
     reps: number;
     load: number;
-    createdAt?: Date;
+    createdAt: Date;
+    onDelete: () => void;
 }
 
 export interface WorkoutsState {
@@ -46,6 +48,14 @@ export const createWorkout = createAsyncThunk(
     }
 );
 
+export const deleteWorkout = createAsyncThunk(
+    'workouts/DeleteWorkout',
+    async (workoutId: string) => {
+        const response = await apiDeleteWorkout(workoutId)
+        return response
+    }
+)
+
 const workoutSlice = createSlice({
     name: 'workouts',
     initialState,
@@ -74,6 +84,11 @@ const workoutSlice = createSlice({
                 state.status = 'failed',
                 state.error  = action.error.message ?? "Unknown Error"
             })
+            .addCase(deleteWorkout.fulfilled, (state, action) => {
+                state.status = 'success',
+                state.workouts = state.workouts.filter(workout => workout._id === action.payload)
+            })
+
             
     }
 })

@@ -13,3 +13,8 @@ export const apiCreateWorkout = async (newWorkout: Workout) => {
     return response.data;   
 }
 
+export const apiDeleteWorkout = async (id: string) => {
+    const response = await axios.delete(`${API_BASE_URL}/workouts/${id}`);
+    return response.data
+}
+
