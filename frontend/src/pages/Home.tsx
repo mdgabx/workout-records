@@ -13,11 +13,14 @@ const Home = () => {
     dispatch(fetchWorkouts());
   }, [dispatch]);
 
+  useEffect(() => {
+    console.log('Workouts updated:', workouts);
+  }, [workouts]);
+
   const handleDelete = (workoutId?: string) => {
     if(workoutId) {
       dispatch(deleteWorkout(workoutId))
     }
-    
   }
 
   return (

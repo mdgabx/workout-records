@@ -10,12 +10,11 @@ import {
 } from "@reduxjs/toolkit";
 
 export interface Workout {
-    _id?: string;
+    _id: string;
     title: string;
     reps: number;
     load: number;
     createdAt: Date;
-    onDelete: () => void;
 }
 
 export interface WorkoutsState {
@@ -86,7 +85,7 @@ const workoutSlice = createSlice({
             })
             .addCase(deleteWorkout.fulfilled, (state, action) => {
                 state.status = 'success',
-                state.workouts = state.workouts.filter(workout => workout._id === action.payload)
+                state.workouts = state.workouts.filter(workout => workout._id !== action.payload._id)
             })
 
             
