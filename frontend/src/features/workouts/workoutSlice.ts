@@ -21,7 +21,14 @@ export interface WorkoutsState {
     workouts: Workout[];
     status: 'idle' | 'loading' | 'success' | 'failed';
     error: string | null;
-  }
+}
+
+export interface WorkoutCreate {
+    title: string;
+    reps: number;
+    load: number;
+}
+  
 
 const initialState: WorkoutsState = {
     workouts: [],
@@ -41,7 +48,7 @@ export const fetchWorkouts = createAsyncThunk<FetchWorkoutsResponse, void>(
 
 export const createWorkout = createAsyncThunk(
     'workouts/CreateWorkout', 
-    async (newWorkout: Workout) => {
+    async (newWorkout: WorkoutCreate) => {
         const response = await apiCreateWorkout(newWorkout)
         return response
     }

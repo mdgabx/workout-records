@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../app/hooks'
-import { createWorkout } from '../features/workouts/workoutSlice'
+import { createWorkout, WorkoutCreate } from '../features/workouts/workoutSlice'
 import { RootState } from '../app/store'
+
 
 
 const WorkoutForm:React.FC = () => {
   const dispatch = useAppDispatch()
   const workouts = useAppSelector((state: RootState) => state.workout.workouts)
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<WorkoutCreate>({
     title: '',
     reps: 0,
     load: 0,
