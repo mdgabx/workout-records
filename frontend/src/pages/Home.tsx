@@ -1,13 +1,15 @@
 import { RootState } from '../app/store';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { deleteWorkout, fetchWorkouts, Workout } from '../features/workouts/workoutSlice';
 import CardDetails from '../components/CardDetails';
 import WorkoutForm from '../components/WorkoutForm';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
+import EditModal from '../components/EditModal';
 
 const Home = () => {
   const dispatch = useAppDispatch();
   const workouts = useAppSelector((state: RootState) => state.workout.workouts)
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     dispatch(fetchWorkouts());
@@ -22,16 +24,35 @@ const Home = () => {
       dispatch(deleteWorkout(workoutId))
     }
   }
+  
+
+  const handleEdit = () => {
+    console.log('click')
+    setShowModal(true)
+  }
+
+  const closeModal = () => {
+    setShowModal(false)
+  }
 
   return (
     <div className="flex w-full px-10 flex-row items-start justify-between gap-x-4">
       <div className="mx-auto w-7/12 flex flex-col items-stretch gap-4 my-10">
       {workouts.map((workout: Workout) => (
-       <CardDetails key={workout._id}  {...workout} onDelete={() => handleDelete(workout._id)}  />
+       <CardDetails 
+        key={workout._id}  
+        {...workout} 
+        onDelete={() => handleDelete(workout._id)}
+        onEdit={() => handleEdit()}
+        />
       ))}
     </div>
 
     <WorkoutForm />
+
+    { showModal && 
+        <EditModal closeModal={closeModal} />
+    }
     
   </div>
   );

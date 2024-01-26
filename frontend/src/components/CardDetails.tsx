@@ -1,5 +1,6 @@
 import React from 'react'
 import { RiDeleteBin3Fill } from "react-icons/ri";
+import { MdModeEdit } from "react-icons/md";
 
 interface WorkoutCard {
   title: string;
@@ -7,10 +8,13 @@ interface WorkoutCard {
   load: number;
   createdAt: Date;
   onDelete: () => void;
+  onEdit: () => void;
 }
 
 
-const CardDetails:React.FC<WorkoutCard> = ({ title, reps, load, createdAt, onDelete }) => (
+const CardDetails:React.FC<WorkoutCard> = ({ title, reps, load, createdAt, onDelete, onEdit }) => { 
+
+  return (
   <div className="shadow-md border w-full border-gray-200 p-7 bg-white rounded flex flex-row items-center justify-between">
     <div className='container-fluid'>
       <h2 className="text-sky-600 text-xl font-urbanist font-bold">{title}</h2>
@@ -18,9 +22,13 @@ const CardDetails:React.FC<WorkoutCard> = ({ title, reps, load, createdAt, onDel
       <p><strong>Load:</strong> {load}</p>
       <p>{new Date(createdAt).toLocaleDateString()}</p>
     </div>
-   
-    <RiDeleteBin3Fill onClick={onDelete} className="text-3xl text-red-800"/>
-  </div>
-)
+
+    <div className='flex flex-row gap-x-4'>
+      <MdModeEdit onClick={onEdit} className='text-3xl text-teal-800' />
+      <RiDeleteBin3Fill onClick={onDelete} className="text-3xl text-red-800"/>
+    </div>
+    </div>
+  )
+}
 
 export default CardDetails
