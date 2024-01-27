@@ -1,16 +1,15 @@
 import { IoMdClose } from "react-icons/io";
 
 type EditModalType = {
-    closeModal: () => void
+    closeModal: () => void;
+    title: string;
+    reps: number;
+    load: number;
 }
 
-const EditModal:React.FC<EditModalType> = ({ closeModal }) => {
+const EditModal:React.FC<EditModalType> = ({ title, reps, load, closeModal }) => {
   return (
-    <div className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-70 flex items-center justify-center">
-        {/* Modal
-        <button onClick={closeModal} >close</button> */}
-
-        
+    <div className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-70 flex items-center justify-center">      
         <div className="relative rounded-md w-3/12  p-10 bg-white shadow border-gray-200 ">
         <IoMdClose 
           onClick={closeModal} 
@@ -18,13 +17,12 @@ const EditModal:React.FC<EditModalType> = ({ closeModal }) => {
         />
         <form className="flex flex-col items-start justify-center gap-4">
             <h3 className='text-3xl'>Edit Workout</h3>
-
             <label>Exercise Title:</label>
             <input 
                 type='text'
                 name='title'
                 className='w-full px-2 py-1 rounded-md ring-1 ring-inset ring-gray-300 text-gray-700'
-
+                value={title}
             />
 
             <label>Load (in kg):</label>
@@ -32,6 +30,7 @@ const EditModal:React.FC<EditModalType> = ({ closeModal }) => {
                 type='number'
                 name='load'
                 className='w-full px-2 py-1 rounded-md ring-1 ring-inset ring-gray-300 text-gray-700'
+                value={load}
             />
 
             <label>Reps:</label>
@@ -39,6 +38,7 @@ const EditModal:React.FC<EditModalType> = ({ closeModal }) => {
                 type='number'
                 name='reps'
                 className='w-full px-2 py-1 rounded-md ring-1 ring-inset ring-gray-300 text-gray-700'
+                value={reps}
             />
             <button 
             className='mx-auto rounded-lg py-2 px-4 bg-green-700 text-white shadow hover:bg-white hover:text-black'

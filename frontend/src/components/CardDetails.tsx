@@ -11,7 +11,6 @@ interface WorkoutCard {
   onEdit: () => void;
 }
 
-
 const CardDetails:React.FC<WorkoutCard> = ({ title, reps, load, createdAt, onDelete, onEdit }) => { 
 
   return (

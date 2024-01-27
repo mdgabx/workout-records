@@ -10,6 +10,7 @@ const Home = () => {
   const dispatch = useAppDispatch();
   const workouts = useAppSelector((state: RootState) => state.workout.workouts)
   const [showModal, setShowModal] = useState(false);
+  const [selectedWorkout, setSelectedWorkout] = useState<Workout | null>()
 
   useEffect(() => {
     dispatch(fetchWorkouts());
@@ -25,9 +26,8 @@ const Home = () => {
     }
   }
   
-
-  const handleEdit = () => {
-    console.log('click')
+  const handleEdit = (workout: Workout) => {
+    setSelectedWorkout(workout)
     setShowModal(true)
   }
 
@@ -39,20 +39,23 @@ const Home = () => {
     <div className="flex w-full px-10 flex-row items-start justify-between gap-x-4">
       <div className="mx-auto w-7/12 flex flex-col items-stretch gap-4 my-10">
       {workouts.map((workout: Workout) => (
-       <CardDetails 
-        key={workout._id}  
-        {...workout} 
-        onDelete={() => handleDelete(workout._id)}
-        onEdit={() => handleEdit()}
-        />
-      ))}
+        <div className="container-fluid" key={workout._id}>
+           <CardDetails 
+            {...workout} 
+            onDelete={() => handleDelete(workout._id)}
+            onEdit={() => handleEdit(workout)}
+          />
+
+          { showModal && selectedWorkout &&
+            <EditModal {...selectedWorkout} closeModal={closeModal} />
+          }
+        </div>
+      ))
+      }
     </div>
 
     <WorkoutForm />
 
-    { showModal && 
-        <EditModal closeModal={closeModal} />
-    }
     
   </div>
   );

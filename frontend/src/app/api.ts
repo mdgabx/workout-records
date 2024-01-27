@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { WorkoutCreate } from '../features/workouts/workoutSlice';
+import { WorkoutCreate, WorkoutUpdate } from '../features/workouts/workoutSlice';
 
 export const API_BASE_URL = 'https://workout-crud.onrender.com/api' // url
 
@@ -15,6 +15,11 @@ export const apiCreateWorkout = async (newWorkout: WorkoutCreate) => {
 
 export const apiDeleteWorkout = async (id: string) => {
     const response = await axios.delete(`${API_BASE_URL}/workouts/${id}`);
+    return response.data
+}
+
+export const apiUpdateWorkout = async (updatedWorkout: WorkoutUpdate) => {
+    const response = await axios.patch(`${API_BASE_URL}/workouts/`, updatedWorkout)
     return response.data
 }
 

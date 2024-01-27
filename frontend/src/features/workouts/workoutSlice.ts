@@ -1,7 +1,8 @@
 import { 
     apiFetchWorkouts,
     apiCreateWorkout,
-    apiDeleteWorkout
+    apiDeleteWorkout,
+    apiUpdateWorkout
 } from '../../app/api'
 import { 
     PayloadAction, 
@@ -22,14 +23,18 @@ export interface WorkoutsState {
     status: 'idle' | 'loading' | 'success' | 'failed';
     error: string | null;
 }
-
 export interface WorkoutCreate {
     title: string;
     reps: number;
     load: number;
 }
+export interface WorkoutUpdate {
+    _id: string;
+    title: string;
+    reps: number;
+    load: number;
+}
   
-
 const initialState: WorkoutsState = {
     workouts: [],
     status: 'idle',
@@ -58,6 +63,14 @@ export const deleteWorkout = createAsyncThunk(
     'workouts/DeleteWorkout',
     async (workoutId: string) => {
         const response = await apiDeleteWorkout(workoutId)
+        return response
+    }
+)
+
+export const updateWorkout = createAsyncThunk(
+    'workouts/UpdateWorkout',
+    async (updatedWorkout: WorkoutUpdate) => {
+        const response = await apiUpdateWorkout(updatedWorkout)
         return response
     }
 )
@@ -94,8 +107,10 @@ const workoutSlice = createSlice({
                 state.status = 'success',
                 state.workouts = state.workouts.filter(workout => workout._id !== action.payload._id)
             })
-
-            
+            .addCase(updateWorkout.fulfilled, (state, action) => {
+                state.status = 'success',
+                state.workouts = state.workouts.map(workout => workout._id === action.payload._id ? action.payload : workout)
+            })
     }
 })
 
