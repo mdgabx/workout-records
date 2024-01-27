@@ -24,8 +24,8 @@ const CardDetails:React.FC<WorkoutCard> = ({ title, reps, load, createdAt, onDel
     </div>
 
     <div className='flex flex-row gap-x-4'>
-      <MdModeEdit onClick={onEdit} className='text-3xl text-teal-800' />
-      <RiDeleteBin3Fill onClick={onDelete} className="text-3xl text-red-800"/>
+      <MdModeEdit onClick={onEdit} className='text-3xl text-teal-800 ease-in-out duration-300 hover:scale-150' />
+      <RiDeleteBin3Fill onClick={onDelete} className="text-3xl text-red-800 ease-in-out duration-300 hover:scale-150"/>
     </div>
     </div>
   )
