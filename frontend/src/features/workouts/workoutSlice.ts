@@ -103,9 +103,15 @@ const workoutSlice = createSlice({
                 state.status = 'failed',
                 state.error  = action.error.message ?? "Unknown Error"
             })
+            .addCase(deleteWorkout.pending, (state) => {
+                state.status = 'loading'
+            })
             .addCase(deleteWorkout.fulfilled, (state, action) => {
                 state.status = 'success',
                 state.workouts = state.workouts.filter(workout => workout._id !== action.payload._id)
+            })
+            .addCase(updateWorkout.pending, (state) => {
+                state.status = 'loading'
             })
             .addCase(updateWorkout.fulfilled, (state, action) => {
                 state.status = 'success',
