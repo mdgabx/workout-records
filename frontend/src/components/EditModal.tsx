@@ -1,13 +1,37 @@
 import { IoMdClose } from "react-icons/io";
+import { useAppDispatch } from "../app/hooks";
+import { useState } from "react";
+import { updateWorkout } from "../features/workouts/workoutSlice";
 
 type EditModalType = {
     closeModal: () => void;
     title: string;
     reps: number;
     load: number;
+    _id: string;
 }
 
-const EditModal:React.FC<EditModalType> = ({ title, reps, load, closeModal }) => {
+const EditModal:React.FC<EditModalType> = ({ _id, title, reps, load, closeModal }) => {
+    const dispatch = useAppDispatch()
+    const [updatedTitle, setUpdatedTitle] = useState(title)
+    const [updatedReps, setUpdatedReps] = useState(reps)
+    const [updatedLoad, setUpdatedLoad] = useState(load)
+
+
+    const handleSave = () => {
+        const updatedForm = {
+            _id: _id,
+            title: updatedTitle,
+            reps: updatedReps,
+            load: updatedLoad,
+            createdAt: new Date(), 
+        }
+
+        dispatch(updateWorkout(updatedForm))
+        closeModal()
+    }
+
+
   return (
     <div className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-70 flex items-center justify-center">      
         <div className="relative rounded-md w-3/12  p-10 bg-white shadow border-gray-200 ">
@@ -22,7 +46,8 @@ const EditModal:React.FC<EditModalType> = ({ title, reps, load, closeModal }) =>
                 type='text'
                 name='title'
                 className='w-full px-2 py-1 rounded-md ring-1 ring-inset ring-gray-300 text-gray-700'
-                value={title}
+                value={updatedTitle}
+                onChange={(event) => setUpdatedTitle(event.target.value) }
             />
 
             <label>Load (in kg):</label>
@@ -30,7 +55,8 @@ const EditModal:React.FC<EditModalType> = ({ title, reps, load, closeModal }) =>
                 type='number'
                 name='load'
                 className='w-full px-2 py-1 rounded-md ring-1 ring-inset ring-gray-300 text-gray-700'
-                value={load}
+                value={updatedLoad}
+                onChange={(event) => setUpdatedLoad(parseInt(event.target.value)) }
             />
 
             <label>Reps:</label>
@@ -38,10 +64,12 @@ const EditModal:React.FC<EditModalType> = ({ title, reps, load, closeModal }) =>
                 type='number'
                 name='reps'
                 className='w-full px-2 py-1 rounded-md ring-1 ring-inset ring-gray-300 text-gray-700'
-                value={reps}
+                value={updatedReps}
+                onChange={(event) => setUpdatedReps(parseInt(event.target.value)) }
             />
             <button 
             className='mx-auto rounded-lg py-2 px-4 bg-green-700 text-white shadow hover:bg-white hover:text-black'
+            onClick={handleSave}
             >
                 SAVE
             </button>

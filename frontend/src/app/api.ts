@@ -19,7 +19,7 @@ export const apiDeleteWorkout = async (id: string) => {
 }
 
 export const apiUpdateWorkout = async (updatedWorkout: WorkoutUpdate) => {
-    const response = await axios.patch(`${API_BASE_URL}/workouts/`, updatedWorkout)
+    const response = await axios.patch(`${API_BASE_URL}/workouts/${updatedWorkout._id}`, updatedWorkout)
     return response.data
 }
 
