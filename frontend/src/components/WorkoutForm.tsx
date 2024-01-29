@@ -1,87 +1,77 @@
-import React, { useState, useEffect } from 'react'
-import { useAppDispatch, useAppSelector } from '../app/hooks'
-import { createWorkout, WorkoutCreate } from '../features/workouts/workoutSlice'
-import { RootState } from '../app/store'
+import React, { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { createWorkout, WorkoutCreate } from '../features/workouts/workoutSlice';
+import { RootState } from '../app/store';
+import { useForm, SubmitHandler, FieldValues } from 'react-hook-form';
 
+interface WorkoutFormProps {}
 
+const WorkoutForm: React.FC<WorkoutFormProps> = () => {
+  const dispatch = useAppDispatch();
+  const workouts = useAppSelector((state: RootState) => state.workout.workouts);
 
-const WorkoutForm:React.FC = () => {
-  const dispatch = useAppDispatch()
-  const workouts = useAppSelector((state: RootState) => state.workout.workouts)
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    reset,
+    formState: { errors },
+  } = useForm<WorkoutCreate>();
 
-  const [formData, setFormData] = useState<WorkoutCreate>({
-    title: '',
-    reps: 0,
-    load: 0,
-  })
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-
-    const value = event.target.name === 'title' ? event.target.value : parseInt(event.target.value)
-
-    setFormData({
-        ...formData,
-        [event.target.name]: value
-    })
-  }
-
-
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault()
-    dispatch(createWorkout(formData))
-  }
+  const onSubmit: SubmitHandler<WorkoutCreate> = (data) => {
+    console.log(data);
+    dispatch(createWorkout(data));
+    reset(); // Reset the form after submission
+  };
 
   useEffect(() => {
-    setFormData({
+    // Reset the form when workouts change
+    reset({
       title: '',
       reps: 0,
       load: 0,
     });
-  }, [workouts]);
-
-
+  }, [workouts, reset]);
 
   return (
-    <div className='w-5/12 container my-10'>
-        <form className="flex flex-col items-start justify-center p-10 gap-4 bg-white shadow border-gray-200 rounded-md">
-            <h3 className='text-3xl'>Record a workout</h3>
+    <div className='w-full md:w-5/12 container my-10'>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className='flex flex-col items-start justify-center p-10 gap-4 bg-white shadow border-gray-200 rounded-md'
+      >
+        <h3 className='text-3xl'>Record a workout</h3>
 
-            <label>Exercise Title:</label>
-            <input 
-                type='text'
-                name='title'
-                className='w-full px-2 py-1 rounded-md ring-1 ring-inset ring-gray-300 text-gray-700'
-                onChange={handleChange}
-                value={formData.title}
+        <label>Exercise Title:</label>
+        <input
+          type='text'
+          {...register('title', { required: 'Title is required' })}
+          className='w-full px-2 py-1 rounded-md ring-1 ring-inset ring-gray-300 text-gray-700'
+        />
+        {errors.title && <span className='text-red-500 font-urbanist'>{errors.title.message}</span>}
 
-            />
+        <label>Load (in kg):</label>
+        <input
+          type='number'
+          {...register('load', { valueAsNumber: true })}
+          className='w-full px-2 py-1 rounded-md ring-1 ring-inset ring-gray-300 text-gray-700'
+        />
 
-            <label>Load (in kg):</label>
-            <input 
-                type='number'
-                name='load'
-                className='w-full px-2 py-1 rounded-md ring-1 ring-inset ring-gray-300 text-gray-700'
-                onChange={handleChange}
-                value={formData.load}
-            />
+        <label>Reps:</label>
+        <input
+          type='number'
+          {...register('reps', { valueAsNumber: true })}
+          className='w-full px-2 py-1 rounded-md ring-1 ring-inset ring-gray-300 text-gray-700'
+        />
 
-            <label>Reps:</label>
-            <input 
-                type='number'
-                name='reps'
-                className='w-full px-2 py-1 rounded-md ring-1 ring-inset ring-gray-300 text-gray-700'
-                onChange={handleChange}
-                value={formData.reps}
-            />
-            <button 
-            className='mx-auto rounded-lg py-2 px-4 bg-green-700 text-white shadow hover:bg-white hover:text-black'
-            onClick={handleSubmit}
-            >
-                ADD
-            </button>
-        </form>
+        <button
+          className='mx-auto rounded-lg py-2 px-4 bg-green-700 text-white shadow hover:bg-white hover:text-black'
+          type='submit'
+        >
+          ADD
+        </button>
+      </form>
     </div>
-  )
-}
+  );
+};
 
-export default WorkoutForm
+export default WorkoutForm;

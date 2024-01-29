@@ -34,7 +34,7 @@ const EditModal:React.FC<EditModalType> = ({ _id, title, reps, load, closeModal 
 
   return (
     <div className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-70 flex items-center justify-center">      
-        <div className="relative rounded-md w-3/12  p-10 bg-white shadow border-gray-200 ">
+        <div className="relative rounded-md w-10/12 md:w-3/12  p-10 bg-white shadow border-gray-200 ">
         <IoMdClose 
           onClick={closeModal} 
           className="text-red-800 absolute right-2 top-2 text-2xl cursor-pointer hover:scale-150 ease-in-out duration-300" 
