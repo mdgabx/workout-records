@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { createWorkout, WorkoutCreate } from '../features/workouts/workoutSlice';
 import { RootState } from '../app/store';
-import { useForm, SubmitHandler, FieldValues } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 
 interface WorkoutFormProps {}
 
@@ -13,7 +13,6 @@ const WorkoutForm: React.FC<WorkoutFormProps> = () => {
   const {
     register,
     handleSubmit,
-    setValue,
     reset,
     formState: { errors },
   } = useForm<WorkoutCreate>();
