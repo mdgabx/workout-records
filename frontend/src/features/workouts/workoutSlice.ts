@@ -97,7 +97,7 @@ const workoutSlice = createSlice({
             })
             .addCase(createWorkout.fulfilled, (state, action: PayloadAction<Workout>) => {
                 state.status = 'success',
-                state.workouts.push(action.payload)
+                state.workouts.unshift(action.payload)
             })
             .addCase(createWorkout.rejected, (state, action) => {
                 state.status = 'failed',

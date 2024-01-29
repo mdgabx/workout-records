@@ -13,6 +13,7 @@ const Home = () => {
   const status = useAppSelector((state: RootState) => state.workout.status)
   const [showModal, setShowModal] = useState(false);
   const [selectedWorkout, setSelectedWorkout] = useState<Workout | null>()
+  const [searchTerm, setSearchTerm] = useState('')
 
   useEffect(() => {
     dispatch(fetchWorkouts());
@@ -37,13 +38,27 @@ const Home = () => {
     setShowModal(false)
   }
 
+  const filteredWorkouts = workouts.filter((workout) => {
+    return workout.title.toLowerCase().includes(searchTerm.toLowerCase())
+  })
+
   return (
     <div className="flex w-full px-10 flex-row items-start justify-between gap-x-4">
       { status === 'loading' ? (<PageLoader />) : (
         <>
       
-         <div className="mx-auto w-7/12 flex flex-col items-stretch gap-4 my-10">
-         {workouts.map((workout: Workout) => (
+         <div className="mx-auto w-7/12 flex flex-col items-stretch gap-4 my-10 bg-white p-10 shadow rounded-lg">
+          <div className="mb-4">
+            <input 
+              className="w-full border border-gray-300 font-urbanist px-4 py-2 rounded"
+              placeholder='Search'
+              value={searchTerm}
+              onChange={(event) => setSearchTerm(event.target.value)}
+            />
+          </div>
+
+
+         {filteredWorkouts.map((workout: Workout) => (
            <div className="container-fluid" key={workout._id}>
               <CardDetails 
                {...workout} 
