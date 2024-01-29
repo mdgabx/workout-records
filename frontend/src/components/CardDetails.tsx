@@ -1,6 +1,7 @@
 import React from 'react'
 import { RiDeleteBin3Fill } from "react-icons/ri";
 import { MdModeEdit } from "react-icons/md";
+import { formatDistanceToNow } from 'date-fns';
 
 interface WorkoutCard {
   title: string;
@@ -19,7 +20,7 @@ const CardDetails:React.FC<WorkoutCard> = ({ title, reps, load, createdAt, onDel
       <h2 className="text-sky-600 text-xl font-urbanist font-bold">{title}</h2>
       <p><strong>Reps:</strong> {reps}</p>
       <p><strong>Load:</strong> {load}</p>
-      <p>{new Date(createdAt).toLocaleDateString()}</p>
+      <p>{formatDistanceToNow(new Date(createdAt), { addSuffix: true })}</p>
     </div>
 
     <div className='flex flex-row gap-x-4'>

@@ -52,7 +52,6 @@ const Home = () => {
             <input 
               className="w-full border border-gray-300 font-urbanist px-4 py-2 rounded"
               placeholder='Search'
-              value={searchTerm}
               onChange={(event) => setSearchTerm(event.target.value)}
             />
           </div>
