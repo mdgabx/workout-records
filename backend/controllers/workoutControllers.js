@@ -38,6 +38,10 @@ const getSingleWorkout = async (req, res) => {
 const createWorkout = async (req, res) => {
     const { title, load, reps } = req.body
         
+    if(!title || !load || !reps) {
+        return res.status(404).json({ error: 'All fields required' })
+    }
+
     try {
         const workout = await Workout.create({
             title,
